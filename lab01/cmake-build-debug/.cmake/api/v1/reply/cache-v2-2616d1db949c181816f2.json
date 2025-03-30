@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/amatusia/CLionProjects/SPD/lab01/cmake-build-debug"
+			"value" : "/home/amatusia/SPD/lab01/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -543,7 +543,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/amatusia/CLionProjects/SPD/lab01/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "/home/amatusia/SPD/lab01/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -603,7 +603,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/amatusia/CLionProjects/SPD/lab01"
+			"value" : "/home/amatusia/SPD/lab01"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1163,7 +1163,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/amatusia/CLionProjects/SPD/lab01/cmake-build-debug"
+			"value" : "/home/amatusia/SPD/lab01/cmake-build-debug"
 		},
 		{
 			"name" : "lab01_IS_TOP_LEVEL",
@@ -1187,7 +1187,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/amatusia/CLionProjects/SPD/lab01"
+			"value" : "/home/amatusia/SPD/lab01"
 		}
 	],
 	"kind" : "cache",

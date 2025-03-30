@@ -778,8 +778,8 @@
 	"kind" : "cmakeFiles",
 	"paths" : 
 	{
-		"build" : "/home/amatusia/CLionProjects/SPD/lab01/cmake-build-debug",
-		"source" : "/home/amatusia/CLionProjects/SPD/lab01"
+		"build" : "/home/amatusia/SPD/lab01/cmake-build-debug",
+		"source" : "/home/amatusia/SPD/lab01"
 	},
 	"version" : 
 	{

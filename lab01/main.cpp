@@ -81,12 +81,12 @@ int main() {
     std::vector<Zadanie> zadania;
     int n = 0;
 
-    std::ifstream file("../schrage/SCHRAGE1.DAT");
+    std::ifstream file("../schrage/SCHRAGE2.DAT");
     file >> n;
 
     for (int j = 0; j < n; j++) {
         int p, r, q;
-        file >> p >> r >> q;
+        file >> r >> p >> q;
         zadania.emplace_back(j, p, r, q);
     }
 
