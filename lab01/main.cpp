@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <chrono>
 
 class Zadanie {
     int n;
@@ -33,7 +34,7 @@ public:
     explicit Problem(const std::vector<Zadanie>& zad);
     int calc_c() const;
     void heur_sort(float r, float q);
-    int PrzegladZupelny();
+    std::vector<int> PrzegladZupelny();
     void print() const;
 };
 
@@ -57,10 +58,14 @@ void Problem::heur_sort(float r, float q) {
             return (r * z1.get_rj() + q * z1.get_qj()) < (r * z2.get_rj() + q * z2.get_qj());
         });
 }
-int Problem::PrzegladZupelny() {
+std::vector<int> Problem::PrzegladZupelny() {
+
+    std::vector<int> output;
 
     std::sort(zadania.begin(), zadania.end(),
         [](const Zadanie &z1, const Zadanie &z2) {return (z1.get_n() < z2.get_n()); });
+
+    auto start = std::chrono::high_resolution_clock::now();
 
     int cq_min = calc_c();
 
@@ -68,7 +73,13 @@ int Problem::PrzegladZupelny() {
         [](const Zadanie &z1, const Zadanie &z2) {return (z1.get_n() < z2.get_n()); })) {
         cq_min = std::min(cq_min, calc_c());
     }
-    return cq_min;
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    int time = (int)duration.count();
+    output.push_back(cq_min);
+    output.push_back(time);
+    return output;
 }
 void Problem::print() const {
     for (auto i : zadania) {
@@ -96,12 +107,10 @@ int main() {
 
     std::cout << "Cmax: " << problem.calc_c() << std::endl;
 
-    std::cout << "Najlepsze rozwiazanie: " << problem.PrzegladZupelny() << std::endl;
+    std::vector<int> out = problem.PrzegladZupelny();
+
+    std::cout << "Najlepsze rozwiazanie: " << out[0] << std::endl;
+    std::cout << "czas " << out[1] << std::endl;
 
     return 0;
 }
-
-// TIP See CLion help at <a
-// href="https://www.jetbrains.com/help/clion/">jetbrains.com/help/clion/</a>.
-//  Also, you can try interactive lessons for CLion by selecting
-//  'Help | Learn IDE Features' from the main menu.
