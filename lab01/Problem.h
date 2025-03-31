@@ -9,12 +9,14 @@
 #include <algorithm>
 #include <vector>
 #include <chrono>
+#include <string>
+#include <fstream>
 
 class Problem {
     std::vector<Zadanie> zadania;
 
 public:
-    explicit Problem(const std::vector<Zadanie>& zad);
+    explicit Problem(const std::string &path);
     int calc_c() const;
     void heur_sort(float r, float q);
     std::vector<int> PrzegladZupelny();

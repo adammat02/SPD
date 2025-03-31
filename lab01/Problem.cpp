@@ -4,7 +4,17 @@
 
 #include "Problem.h"
 
-Problem::Problem(const std::vector<Zadanie>& zad): zadania(zad) {}
+Problem::Problem(const std::string &path) {
+    int n = 0;
+    std::ifstream file(path);
+    file >> n;
+
+    for (int j = 0; j < n; j++) {
+        int p, r, q;
+        file >> r >> p >> q;
+        zadania.emplace_back(j, p, r, q);
+    }
+}
 int Problem::calc_c() const {
     int cq_max = 0;
     int cpi = 0;
