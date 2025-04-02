@@ -11,9 +11,12 @@
 #include <chrono>
 #include <string>
 #include <fstream>
+#include <queue>
 
 class Problem {
     std::vector<Zadanie> zadania;
+    struct compareQ;
+    struct compareR;
 
 public:
     explicit Problem(const std::string &path);
@@ -21,6 +24,8 @@ public:
     void heur_sort(float r, float q);
     std::vector<int> PrzegladZupelny();
     void print() const;
+    int schrage();
+    int schrage_podzial();
 };
 
 

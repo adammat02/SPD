@@ -15,6 +15,7 @@ Problem::Problem(const std::string &path) {
         zadania.emplace_back(j, p, r, q);
     }
 }
+
 int Problem::calc_c() const {
     int cq_max = 0;
     int cpi = 0;
@@ -28,12 +29,14 @@ int Problem::calc_c() const {
     }
     return cq_max;
 }
+
 void Problem::heur_sort(float r, float q) {
     std::sort(zadania.begin(), zadania.end(),
         [r, q](const Zadanie &z1, const Zadanie &z2) {
             return (r * z1.get_rj() + q * z1.get_qj()) < (r * z2.get_rj() + q * z2.get_qj());
         });
 }
+
 std::vector<int> Problem::PrzegladZupelny() {
 
     std::vector<int> output;
@@ -57,8 +60,95 @@ std::vector<int> Problem::PrzegladZupelny() {
     output.push_back(time);
     return output;
 }
+
 void Problem::print() const {
     for (auto i : zadania) {
         i.print();
     }
+}
+
+struct Problem::compareQ {
+    bool operator()(const Zadanie &z1, const Zadanie &z2) {
+        return z1.get_qj() < z2.get_qj();
+    }
+};
+
+struct Problem::compareR {
+    bool operator()(const Zadanie &z1, const Zadanie &z2) {
+        return z1.get_rj() > z2.get_rj();
+    }
+};
+
+int Problem::schrage() {
+
+    std::priority_queue<Zadanie, std::vector<Zadanie>, compareR> notReady(zadania.begin(), zadania.end());
+    std::priority_queue<Zadanie, std::vector<Zadanie>, compareQ> Ready;
+    std::vector<Zadanie> z;
+
+    int t = 0;
+    int cmax = 0;
+    int cqmax = 0;
+
+    while (!Ready.empty() || !notReady.empty()) {
+
+        while (!notReady.empty() && notReady.top().get_rj() <= t) {
+            Ready.push(notReady.top());
+            notReady.pop();
+        }
+
+        if (!Ready.empty()) {
+            Zadanie tmp = Ready.top();
+            Ready.pop();
+
+            z.push_back(tmp);
+            t += tmp.get_pj();
+            cmax = t + tmp.get_qj();
+            cqmax = std::max(cqmax, cmax);
+        } else if (!notReady.empty()) {
+            t = notReady.top().get_rj();
+        }
+    }
+    return cqmax;
+}
+
+int Problem::schrage_podzial() {
+
+    std::priority_queue<Zadanie, std::vector<Zadanie>, compareR> notReady(zadania.begin(), zadania.end());
+    std::priority_queue<Zadanie, std::vector<Zadanie>, compareQ> Ready;
+    Zadanie l;
+
+    int t = 0;
+    int cmax = 0;
+    int cqmax = 0;
+
+    while (!Ready.empty() || !notReady.empty()) {
+
+        while (!notReady.empty() && notReady.top().get_rj() <= t) {
+            Ready.push(notReady.top());
+            notReady.pop();
+        }
+
+        if (!Ready.empty()) {
+
+            if (Ready.top().get_qj() > l.get_qj()) {
+                l.set_pj(t - Ready.top().get_rj());
+                t = Ready.top().get_rj();
+
+                if (l.get_pj() > 0) {
+                    Ready.push(l);
+                }
+            }
+
+            Zadanie tmp = Ready.top();
+            Ready.pop();
+
+            l = Ready.top();
+            t += tmp.get_pj();
+            cmax = t + tmp.get_qj();
+            cqmax = std::max(cqmax, cmax);
+        } else if (!notReady.empty()) {
+            t = notReady.top().get_rj();
+        }
+    }
+    return cqmax;
 }

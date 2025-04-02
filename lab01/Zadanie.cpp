@@ -10,6 +10,8 @@ int Zadanie::get_n() const {return n;}
 
 int Zadanie::get_pj() const {return pj;}
 
+void Zadanie::set_pj(int val) {pj = val;}
+
 int Zadanie::get_rj() const {return rj;}
 
 int Zadanie::get_qj() const {return qj;}
