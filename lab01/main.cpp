@@ -3,7 +3,7 @@
 
 int main() {
 
-    Problem problem("../schrage/SCHRAGE1.DAT");
+    Problem problem("../schrage/SCHRAGE4.DAT");
 
     problem.heur_sort(1,-1);
 
@@ -13,9 +13,23 @@ int main() {
     //
     // std::cout << "Najlepsze rozwiazanie: " << out[0] << std::endl;
     // std::cout << "czas " << out[1] << std::endl;
+    auto start1 = std::chrono::high_resolution_clock::now();
+    std::cout << "Schrage: " << problem.schrage_queue() << std::endl;
+    auto end1 = std::chrono::high_resolution_clock::now();
+    std::cout<<"czas wyk1: "<<std::chrono::duration<double, std::milli>(end1-start1).count()<<std::endl;
+    auto start2 = std::chrono::high_resolution_clock::now();
+    std::cout << "Schrage: " << problem.schrage_vector() << std::endl;
+    auto end2 = std::chrono::high_resolution_clock::now();
+    std::cout<<"czas wyk2: "<<std::chrono::duration<double, std::milli>(end2-start2).count()<<std::endl;
 
-    std::cout << "Schrage: " << problem.schrage() << std::endl;
-    std::cout << "Schrage_pod: " << problem.schrage_podzial() << std::endl;
+    auto start3 = std::chrono::high_resolution_clock::now();
+    std::cout << "Schrage: " << problem.schrage_queue_podzial() << std::endl;
+    auto end3 = std::chrono::high_resolution_clock::now();
+    std::cout<<"czas wyk3: "<<std::chrono::duration<double, std::milli>(end3-start3).count()<<std::endl;
+    auto start4 = std::chrono::high_resolution_clock::now();
+    std::cout << "Schrage: " << problem.schrage_vector_podzial() << std::endl;
+    auto end4 = std::chrono::high_resolution_clock::now();
+    std::cout<<"czas wyk4: "<<std::chrono::duration<double, std::milli>(end4-start4).count()<<std::endl;
 
     return 0;
 }

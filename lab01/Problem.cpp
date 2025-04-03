@@ -79,7 +79,7 @@ struct Problem::compareR {
     }
 };
 
-int Problem::schrage() {
+int Problem::schrage_queue() {
 
     std::priority_queue<Zadanie, std::vector<Zadanie>, compareR> notReady(zadania.begin(), zadania.end());
     std::priority_queue<Zadanie, std::vector<Zadanie>, compareQ> Ready;
@@ -111,7 +111,92 @@ int Problem::schrage() {
     return cqmax;
 }
 
-int Problem::schrage_podzial() {
+int Problem::schrage_vector(){
+    std::vector<Zadanie>N=zadania;
+    std::vector<Zadanie>G;
+
+    int t=0;
+    int Cmax=0;
+
+    std::sort(N.begin(),N.end(),[](Zadanie &a, Zadanie &b){
+        return a.get_rj()<b.get_rj();
+    });
+    while((G.size()>0)||(N.size()>0)){
+        while((N.size()>0)&&(N[0].get_rj()<=t)){
+            G.push_back(N[0]);
+            N.erase(N.begin());
+        }
+        if(G.size()==0){
+            t=N[0].get_rj();
+        } 
+        else{
+            int max_q_index=0;
+            for(int i=1;i<G.size();i++){
+                if(G[i].get_qj()>G[max_q_index].get_qj()){
+                    max_q_index=i;
+                }
+            }
+            t=t+G[max_q_index].get_pj();
+            int c=t+G[max_q_index].get_qj();
+            if(c>Cmax){
+                Cmax=c;
+            }
+            G.erase(G.begin()+max_q_index);
+        }
+    }
+    return Cmax;
+}
+
+int Problem::schrage_vector_podzial(){
+    std::vector<Zadanie>N=zadania;
+    std::vector<Zadanie>G;
+
+    int t=0;
+    int Cmax=0;
+
+    // fikcyjne aktualnie wykonywane zadanie
+    Zadanie l;
+    std::sort(N.begin(), N.end(), [](const Zadanie &a, const Zadanie &b) {
+        return a.get_rj() < b.get_rj();
+    });
+    while(G.size()>0||N.size()>0){
+        while((N.size()>0)&&(N[0].get_rj()<=t)){
+            G.push_back(N[0]);
+            if(N[0].get_qj()>l.get_qj()){
+                l.set_pj(t-N[0].get_rj());
+                t=N[0].get_rj();
+                if(l.get_pj()>0){
+                    G.push_back(l);
+                }
+            }
+            N.erase(N.begin());
+        }
+        if(G.size()==0){
+            if(N.size()>0){
+                t=N[0].get_rj();
+            }
+        } 
+        else{
+            int max_q_index=0;
+            for(int i=1;i<G.size();i++){
+                if(G[i].get_qj()>G[max_q_index].get_qj()){
+                    max_q_index=i;
+                }
+            }
+            t=t+G[max_q_index].get_pj();
+            int c=t+G[max_q_index].get_qj();
+            if(c>Cmax){
+                Cmax=c;
+            }
+            G.erase(G.begin()+max_q_index);
+        }
+    }
+
+    return Cmax;
+}
+
+
+int Problem::schrage_queue_podzial() {
 
     std::priority_queue<Zadanie, std::vector<Zadanie>, compareR> notReady(zadania.begin(), zadania.end());
     std::priority_queue<Zadanie, std::vector<Zadanie>, compareQ> Ready;

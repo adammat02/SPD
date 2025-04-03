@@ -24,8 +24,10 @@ public:
     void heur_sort(float r, float q);
     std::vector<int> PrzegladZupelny();
     void print() const;
-    int schrage();
-    int schrage_podzial();
+    int schrage_queue();
+    int schrage_queue_podzial();
+    int schrage_vector();
+    int schrage_vector_podzial();
 };
 
 
