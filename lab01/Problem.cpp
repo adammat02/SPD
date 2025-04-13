@@ -237,3 +237,12 @@ int Problem::schrage_queue_podzial() {
     }
     return cqmax;
 }
+
+
+void Problem::r_minus_q_na_p(){
+    std::sort(zadania.begin(),zadania.end(),[](const Zadanie &a,const Zadanie &b){
+            float waga_a=(float)(a.get_rj()-a.get_qj())/a.get_pj();
+            float waga_b=(float)(b.get_rj()-b.get_qj())/b.get_pj();
+            return waga_a<waga_b;
+        });
+}

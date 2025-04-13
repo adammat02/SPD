@@ -28,6 +28,7 @@ public:
     int schrage_queue_podzial();
     int schrage_vector();
     int schrage_vector_podzial();
+    void r_minus_q_na_p();
 };
 
 

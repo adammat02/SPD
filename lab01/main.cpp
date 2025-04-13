@@ -3,9 +3,9 @@
 
 int main() {
 
-    Problem problem("../schrage/SCHRAGE4.DAT");
+    Problem problem("../schrage/SCHRAGE3.DAT");
 
-    problem.heur_sort(1,-1);
+    //problem.heur_sort(1,-1);
 
     std::cout << "Heur cmax: " << problem.calc_c() << std::endl;
 
@@ -30,6 +30,12 @@ int main() {
     std::cout << "Schrage: " << problem.schrage_vector_podzial() << std::endl;
     auto end4 = std::chrono::high_resolution_clock::now();
     std::cout<<"czas wyk4: "<<std::chrono::duration<double, std::milli>(end4-start4).count()<<std::endl;
+
+    auto start5=std::chrono::high_resolution_clock::now();
+    problem.r_minus_q_na_p();
+    std::cout<<"Heur cmax dla (r-q)/p: "<<problem.calc_c()<<std::endl;
+    auto end5=std::chrono::high_resolution_clock::now();
+    std::cout<<"czas (r-q)/p: "<<std::chrono::duration<double,std::milli>(end5-start5).count()<<std::endl;
 
     return 0;
 }
