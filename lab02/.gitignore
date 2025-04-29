@@ -1,0 +1,11 @@
+cmake-build-debug/
+.idea/
+*.o
+*.d
+schrage
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+build.ninja
+.ninja*
