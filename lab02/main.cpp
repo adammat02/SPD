@@ -20,6 +20,7 @@ int main() {
     std::cout << "cmax: " << p.przegladZaupelny() << std::endl;
     std::cout << "lsa: " << p.LSA() << std::endl;
     std::cout << "lpt: " << p.LPT() << std::endl;
+    std::cout << "lpt: " << p.PD() << std::endl;
 
 
     return 0;

@@ -19,6 +19,7 @@ public:
     int przegladZaupelny();
     int LSA();
     int LPT();
+    int PD();
 };
 
 

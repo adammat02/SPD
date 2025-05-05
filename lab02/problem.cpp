@@ -46,10 +46,14 @@ int problem::przegladZaupelny() {
                 maszyny[1].dodajZadanie(listaWczytanychZadan[i]);
             }
         }
-        cmax1 = maszyny[0].getCmax();
-        cmax2 = maszyny[1].getCmax();
-        cmax = std::max(cmax1, cmax2);
-        result = std::min(result, cmax);
+        int wynik = 0;
+        for (int i = 0; i < maszyny.size(); ++i) {
+            int tempcmax = maszyny[i].getCmax();
+            if (tempcmax > wynik) {
+                wynik = tempcmax;
+            }
+        }
+        result = std::min(result, wynik);
     }
     return result;
 }
@@ -98,13 +102,44 @@ int problem::LPT() {
         maszyny[min_index].dodajZadanie(zadania[j]);
     }
     int wynik = 0;
-    for (const auto &m : maszyny){
-        if (m.getCmax() > wynik){
-            wynik = m.getCmax();
+    for (int i = 0; i < maszyny.size(); ++i) {
+        int tempcmax = maszyny[i].getCmax();
+        if (tempcmax > wynik) {
+            wynik = tempcmax;
         }
     }
     return wynik;
 }
+
+int problem::PD() {
+    int Sum=0;
+    for (int i=0;i<listaWczytanychZadan.size();i++){
+        Sum=Sum+listaWczytanychZadan[i].getPj();
+    }
+    int K=Sum/2+1;
+    std::vector<std::vector<bool>>dp(listaWczytanychZadan.size()+1,std::vector<bool>(K,0));
+    dp[0][0]=1;
+    for(int i=1;i<=listaWczytanychZadan.size();++i){
+        int p=listaWczytanychZadan[i-1].getPj();
+        for(int j=0;j<K;++j){
+            dp[i][j]=dp[i-1][j];
+            if((j>=p)&&(dp[i-1][j-p]==1)){
+                dp[i][j]=1;
+            }
+        }
+    }
+    int best=0;
+    for(int j=K-1;j>=0;--j){
+        if(dp[listaWczytanychZadan.size()][j]==1){
+            best=j;
+            j=-1;
+        }
+    }
+    int Cmax=std::max(best,Sum-best);
+    return Cmax;
+}
+
+
 
 
 
