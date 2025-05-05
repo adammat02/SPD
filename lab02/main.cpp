@@ -18,6 +18,9 @@ int main() {
     problem p("../TEST.DAT");
 
     std::cout << "cmax: " << p.przegladZaupelny() << std::endl;
+    std::cout << "lsa: " << p.LSA() << std::endl;
+    std::cout << "lpt: " << p.LPT() << std::endl;
+
 
     return 0;
 }

@@ -154,7 +154,6 @@ int Problem::schrage_vector_podzial(){
     int t=0;
     int Cmax=0;
 
-    // fikcyjne aktualnie wykonywane zadanie
     Zadanie l;
     std::sort(N.begin(), N.end(), [](const Zadanie &a, const Zadanie &b) {
         return a.get_rj() < b.get_rj();

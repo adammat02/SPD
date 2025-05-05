@@ -5,7 +5,7 @@ int main() {
 
     Problem problem("../schrage/SCHRAGE3.DAT");
 
-    //problem.heur_sort(1,-1);
+    problem.heur_sort(1,-1);
 
     std::cout << "Heur cmax: " << problem.calc_c() << std::endl;
 

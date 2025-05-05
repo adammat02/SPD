@@ -28,15 +28,16 @@ problem::problem(const std::string &path) {
 int problem::przegladZaupelny() {
 
     int n = listaWczytanychZadan.size();
-    int limit = 1 << (n - 1);  // 2^(n-1) kombinacji
+    int limit = 1 << n; 
     int cmax1 = 0;
     int cmax2 = 0;
     int cmax = 0;
     int result = INT_MAX;
 
     for (int mask = 0; mask < limit; ++mask) {
-        maszyny[0].wyczyscMaszyne();
-        maszyny[1].wyczyscMaszyne();
+        for (int i = 0; i < maszyny.size(); ++i) {
+            maszyny[i].wyczyscMaszyne();
+        }
 
         for (int i = 0; i < n; ++i) {
             if (mask & (1 << i)) {
@@ -52,6 +53,59 @@ int problem::przegladZaupelny() {
     }
     return result;
 }
+
+
+
+
+int problem::LSA() {
+    for (int i = 0; i < maszyny.size(); ++i) {
+        maszyny[i].wyczyscMaszyne();
+    }
+    for (int j = 0; j < listaWczytanychZadan.size(); ++j) {
+        int min_index = 0;
+        for (int i = 1; i < maszyny.size(); ++i){
+            if (maszyny[i].getCmax() < maszyny[min_index].getCmax()){
+                min_index = i;
+            }
+        }
+        maszyny[min_index].dodajZadanie(listaWczytanychZadan[j]);
+    }
+    int wynik = 0;
+    for (int i = 0; i < maszyny.size(); ++i) {
+        int tempcmax = maszyny[i].getCmax();
+        if (tempcmax > wynik) {
+            wynik = tempcmax;
+        }
+    }
+    return wynik;
+}
+
+
+int problem::LPT() {
+    std::vector<zadanie> zadania = listaWczytanychZadan;
+    std::sort(zadania.begin(), zadania.end(),[](const zadanie &a, const zadanie &b) {
+        return a.getPj() > b.getPj();
+    });
+    for (int i = 0; i < maszyny.size(); ++i) {
+        maszyny[i].wyczyscMaszyne();
+    }
+    for (int j = 0; j < zadania.size(); ++j) {
+        int min_index = 0;
+        for (int i = 1; i < maszyny.size(); ++i)
+            if (maszyny[i].getCmax() < maszyny[min_index].getCmax()){
+                min_index = i;
+            }
+        maszyny[min_index].dodajZadanie(zadania[j]);
+    }
+    int wynik = 0;
+    for (const auto &m : maszyny){
+        if (m.getCmax() > wynik){
+            wynik = m.getCmax();
+        }
+    }
+    return wynik;
+}
+
 
 
 
