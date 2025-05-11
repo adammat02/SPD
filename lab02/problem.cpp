@@ -28,7 +28,7 @@ problem::problem(const std::string &path) {
 int problem::przegladZaupelny() {
 
     int n = listaWczytanychZadan.size();
-    int limit = 1 << n; 
+    int limit = 1 << n;
     int cmax1 = 0;
     int cmax2 = 0;
     int cmax = 0;
