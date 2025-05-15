@@ -8,5 +8,10 @@ zadanie::zadanie(int id, int pj) : id(id), pj(pj) {}
 
 int zadanie::getId() const {return id; }
 
-int zadanie::getPj() const {return pj; }
+double zadanie::getPj() const {return pj; }
+
+void zadanie::setPj(double val) {
+    pj = val;
+}
+
 

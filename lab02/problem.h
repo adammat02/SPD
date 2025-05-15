@@ -14,12 +14,15 @@
 class problem {
     std::vector<maszyna> maszyny;
     std::vector<zadanie> listaWczytanychZadan;
+    void przegladZaupelny_lok(std::vector<zadanie> z);
 public:
     problem(const std::string &path);
     int przegladZaupelny();
     int LSA();
     int LPT();
     int PD();
+    int PTAS(int k);
+    int FPTAS(int k);
 };
 
 

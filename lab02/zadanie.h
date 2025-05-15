@@ -8,11 +8,12 @@
 
 class zadanie {
     int id;
-    int pj;
+    double pj;
 public:
     explicit zadanie(int id, int pj);
     int getId() const;
-    int getPj() const;
+    double getPj() const;
+    void setPj(double val);
 };
 
 
