@@ -21,6 +21,9 @@ public:
     int get_cmax(const std::vector<int>& lokalna_kolejnosc);
     int przegladZupelny();
     int NEH();
+    int NEH_2();
+    int Johnson();
+    int lowerr(const std::vector<int>& kolejnosc); 
 };
 
 
