@@ -14,8 +14,7 @@ int main()
         "test4x2.dat",
         "test6x2.dat",
         "test8x2.dat",
-        "test10x2.dat",
-        "test11x2.dat"
+        "test10x2.dat"
 
         // Dodaj więcej plików, jeśli istnieją
     };

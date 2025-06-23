@@ -139,72 +139,82 @@ int problem::Johnson(){
 }
 
 
-int problem::lowerr(const std::vector<int>& kolejnosc) {
-    std::vector<int> suma_maszyn(maszyny_n,0);
-    for(int i=0;i<kolejnosc.size();i++){
-        int id_zad=kolejnosc[i];
-        for(int j=0;j<maszyny_n;j++){
-            suma_maszyn[j]+=maszyny[j].getZadaniePj(id_zad);
-        }
-    }
-    int max_suma=0;
-    for(int i=0;i<suma_maszyn.size();i++){
-        if(suma_maszyn[i]>max_suma){
-            max_suma=suma_maszyn[i];
-        }
-    }
-    return max_suma;
-}
-
-
-
 int problem::NEH_2() {
-    std::vector<std::pair<int, int>> suma_zadan;
-    for (int i = 0; i < zadania_n; ++i) {
+
+    std::vector<std::pair<int,int>> suma_zadan;
+    for (int j = 0; j < zadania_n; ++j) {
         int suma = 0;
-        for (int j = 0; j < maszyny_n; ++j) {
-            suma += maszyny[j].getZadaniePj(i);
-        }
-        suma_zadan.push_back({i, suma});
+        for (int m = 0; m < maszyny_n; ++m)
+            suma += maszyny[m].getZadaniePj(j);
+        suma_zadan.push_back({j, suma});
     }
 
-    //Sortowanie malejąco po sumie
     std::sort(suma_zadan.begin(), suma_zadan.end(),
-              [](const std::pair<int, int>& a, const std::pair<int, int>& b) {
-                  return a.second > b.second;
-              });
+              [](auto a, auto b){ return a.second > b.second; });
 
-    std::vector<int> najlepsza_kolejnosc;
-    for (int i = 0; i < suma_zadan.size(); ++i) {
-        int zad = suma_zadan[i].first;
-        int najlepszy_cmax = INT_MAX;
-        std::vector<int> najlepsza_tmp;
+    std::vector<int> seq;
+    seq.reserve(zadania_n);
+    std::vector<int> cur(maszyny_n, 0);
 
-        // Wstawianie zadania na każdą możliwą pozycję
-        for (int pos = 0; pos <= najlepsza_kolejnosc.size(); ++pos) {
-            std::vector<int> tmp = najlepsza_kolejnosc;
-            tmp.insert(tmp.begin() + pos, zad);
+    for (auto [zad, _] : suma_zadan) {
 
-            int lb=lowerr(tmp);
-            if(lb<=najlepszy_cmax){
-                int cmax=get_cmax(tmp);
-                if(cmax<najlepszy_cmax){
-                    najlepszy_cmax=cmax;
-                    najlepsza_tmp=tmp;
-                }
-            }
+        int L = static_cast<int>(seq.size());
+        std::vector<std::vector<int>> head(L + 1, std::vector<int>(maszyny_n, 0));
 
-
-            int cmax = get_cmax(tmp);
-            if (cmax < najlepszy_cmax) {
-                najlepszy_cmax = cmax;
-                najlepsza_tmp = tmp;
+        for (int p = 0; p < L; ++p) {
+            int job = seq[p];
+            head[p] = cur;
+            int prev = 0;
+            for (int m = 0; m < maszyny_n; ++m) {
+                cur[m] = std::max(cur[m], prev) + maszyny[m].getZadaniePj(job);
+                prev   = cur[m];
             }
         }
-        najlepsza_kolejnosc = najlepsza_tmp;
+        head[L] = cur;
+
+        std::vector<std::vector<int>> tail(L + 1, std::vector<int>(maszyny_n, 0));
+        tail[L] = cur;
+        for (int p = L - 1; p >= 0; --p) {
+            int job = seq[p];
+            int next = 0;
+            for (int m = maszyny_n - 1; m >= 0; --m) {
+                cur[m] = std::max(cur[m], next) + maszyny[m].getZadaniePj(job);
+                next   = cur[m];
+            }
+            tail[p] = cur;
+        }
+
+        std::vector<int> Pj(maszyny_n);
+        for (int m = 0; m < maszyny_n; ++m)
+            Pj[m] = maszyny[m].getZadaniePj(zad);
+
+        int best_pos  = 0;
+        int best_cmax = INT_MAX;
+
+        for (int pos = 0; pos <= L; ++pos) {
+
+            std::vector<int> finish(maszyny_n);
+            for (int m = 0; m < maszyny_n; ++m) {
+                if (m == 0)
+                    finish[m] = head[pos][0] + Pj[0];
+                else
+                    finish[m] = std::max(finish[m-1], head[pos][m]) + Pj[m];
+            }
+
+            int cmax = 0;
+            for (int m = 0; m < maszyny_n; ++m)
+                cmax = std::max(cmax, finish[m] + tail[pos][m]);
+
+            if (cmax < best_cmax) {
+                best_cmax = cmax;
+                best_pos  = pos;
+            }
+        }
+
+        seq.insert(seq.begin() + best_pos, zad);
     }
 
-    return get_cmax(najlepsza_kolejnosc);
+    return get_cmax(seq);
 }
 
 
